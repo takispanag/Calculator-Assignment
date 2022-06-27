@@ -40,7 +40,7 @@ public class ConversionActivity extends AppCompatActivity {
         String amount = intent.getStringExtra("amount");
 
         //set amount from main activity intent
-        amountFrom.setText(amount);
+        //amountFrom.setText(amount);
 
 
         swapButton.setOnClickListener(new View.OnClickListener() {
@@ -57,10 +57,7 @@ public class ConversionActivity extends AppCompatActivity {
                 String toCurrency = spinnerTo.getText().toString();
                 String amount = amountFrom.getText().toString();
 
-                //total screen is empty
-                if (amount.length() != 0) {
-                    getCurrencyConversion(fromCurrency, toCurrency, amount);
-                }
+                getCurrencyConversion(fromCurrency, toCurrency, amount);
             }
         });
     }
@@ -72,6 +69,7 @@ public class ConversionActivity extends AppCompatActivity {
                 .filter(iconSpinnerItem -> iconSpinnerItem.getText().equals(spinnerFrom.getText().toString()))
                 .findFirst()
                 .get();
+
         IconSpinnerItem toSpinnerSelection = iconSpinnerItems
                 .stream()
                 .filter(iconSpinnerItem -> iconSpinnerItem.getText().equals(spinnerTo.getText().toString()))
@@ -80,6 +78,7 @@ public class ConversionActivity extends AppCompatActivity {
 
         int fromSpinnerIndex = iconSpinnerItems.indexOf(fromSpinnerSelection);
         int toSpinnerIndex = iconSpinnerItems.indexOf(toSpinnerSelection);
+        
         //swap currency
         spinnerFrom.selectItemByIndex(toSpinnerIndex);
         spinnerTo.selectItemByIndex(fromSpinnerIndex);
@@ -134,6 +133,12 @@ public class ConversionActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Operand found. Conversion can only happen on a number!", Toast.LENGTH_SHORT).show();
                 return;
             }*/
+            if( amount.isEmpty() || amount.length()==0 )
+            {
+                Toast.makeText(getApplicationContext(), "Amount to convert is empty.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             if(Double.parseDouble(amount)<=0){
                 Toast.makeText(getApplicationContext(), "Please enter amount greater than 0", Toast.LENGTH_SHORT).show();
                 return;

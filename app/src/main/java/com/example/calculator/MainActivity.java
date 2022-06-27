@@ -14,6 +14,7 @@ import com.skydoves.powerspinner.IconSpinnerItem;
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener;
 import com.skydoves.powerspinner.PowerSpinnerView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final static int IS_DOT = 2;
 
     List<IconSpinnerItem> iconSpinnerItems = new ArrayList<>();
+
+    DecimalFormat decimalFormat = new DecimalFormat("0.#####");
 
 
     Button buttonNumber0;
@@ -170,52 +173,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId())
         {
             case R.id.button_zero:
-                if (addNumber("0"))
+                addNumber("0");
                 break;
             case R.id.button_one:
-                if (addNumber("1"))
+                addNumber("1");
                 break;
             case R.id.button_two:
-                if (addNumber("2"))
+                addNumber("2");
                 break;
             case R.id.button_three:
-                if (addNumber("3"))
+                addNumber("3");
                 break;
             case R.id.button_four:
-                if (addNumber("4"))
+                addNumber("4");
                 break;
             case R.id.button_five:
-                if (addNumber("5"))
+                addNumber("5");
                 break;
             case R.id.button_six:
-                if (addNumber("6"))
+                addNumber("6");
                 break;
             case R.id.button_seven:
-                if (addNumber("7"))
+                addNumber("7");
                 break;
             case R.id.button_eight:
-                if (addNumber("8"))
+                addNumber("8");
                 break;
             case R.id.button_nine:
-                if (addNumber("9"))
+                addNumber("9");
                 break;
             case R.id.button_addition:
-                if (addOperand("+"))
+                addOperand("+");
                 break;
             case R.id.button_subtraction:
-                if (addOperand("-"))
+                addOperand("-");
                 break;
             case R.id.button_multiplication:
-                if (addOperand("x"))
+                addOperand("x");
                 break;
             case R.id.button_division:
-                if (addOperand("÷"))
+                addOperand("÷");
                 break;
             case R.id.button_percent:
-                if (addOperand("%"))
+                addOperand("%");
                 break;
             case R.id.button_dot:
-                if (addDot())
+                addDot();
                 break;
             case R.id.button_clear:
                 inputNumbers.setText("");
@@ -300,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     || lastInput.equals("÷")
                     || lastInput.equals("%")))
             {
-                Toast.makeText(getApplicationContext(), "Wrong format", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Operand already exists", Toast.LENGTH_LONG).show();
             } else if (operand.equals("%") && defineLastCharacter(lastInput) == IS_NUMBER)
             {
                 inputNumbers.setText(inputNumbers.getText() + operand);
@@ -387,20 +390,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
    private void operation(Double firstNumber, Double secondNumber) {
         switch (OPERATION) {
+            //decimal format to remove trailing zeros
                 case ADDITION:
-                    inputNumbers.setText(String.valueOf(firstNumber + secondNumber));
+                    inputNumbers.setText(decimalFormat.format(firstNumber + secondNumber));
                     break;
                 case SUBTRACTION:
-                    inputNumbers.setText(String.valueOf(firstNumber - secondNumber));
+                    inputNumbers.setText(decimalFormat.format(firstNumber - secondNumber));
                     break;
                 case MULTIPLICATION:
-                    inputNumbers.setText(String.valueOf(firstNumber * secondNumber));
+                    inputNumbers.setText(decimalFormat.format(firstNumber * secondNumber));
                     break;
                 case DIVISION:
-                    inputNumbers.setText(String.valueOf( firstNumber / secondNumber));
+                    inputNumbers.setText(decimalFormat.format(firstNumber / secondNumber));
                     break;
                 case MODULUS:
-                    inputNumbers.setText(String.valueOf(firstNumber % secondNumber));
+                    inputNumbers.setText(decimalFormat.format(firstNumber % secondNumber));
                     break;
                 case EQUALS:
                     break;
