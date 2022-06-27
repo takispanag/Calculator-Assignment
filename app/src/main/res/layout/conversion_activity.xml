@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:aandroid="http://schemas.android.com/tools"
+    android:background="#000000"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/currencyConversion"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="4"
+        android:foregroundGravity="center"
+        android:gravity="center|top"
+        android:text="Currency Conversion"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/fromCurrency"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:gravity="bottom|center|left"
+        android:paddingLeft="10dp"
+        android:text="FROM CURRENCY"
+        android:textColor="#FFFFFF" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:orientation="vertical">
+
+            <com.skydoves.powerspinner.PowerSpinnerView
+                android:id="@+id/fromSelection"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="0"
+                android:background="@drawable/layout_corners_shape"
+                android:backgroundTint="@android:color/holo_orange_dark"
+                android:gravity="center"
+                android:padding="3dp"
+                android:textColor="@color/white"
+                android:textSize="14.5sp"
+                app:spinner_arrow_gravity="end"
+                app:spinner_divider_color="@color/black"
+                app:spinner_divider_show="true"
+                app:spinner_divider_size="0.4dp"
+                app:spinner_popup_animation="dropdown"
+                app:spinner_popup_elevation="14dp" />
+
+            <ImageButton
+                android:id="@+id/swapButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="170dp"
+                android:layout_marginTop="65dp"
+                android:background="@drawable/round_button"
+                app:srcCompat="@drawable/swap_button_img" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/editTextFrom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0"
+            android:backgroundTint="#FF9800"
+            android:ems="10"
+            android:gravity="right"
+            android:inputType="numberDecimal"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/toCurrency"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:gravity="bottom|center|left"
+        android:paddingLeft="10dp"
+        android:text="TO CURRENCY"
+        android:textColor="#FFFFFF" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:orientation="horizontal">
+
+        <com.skydoves.powerspinner.PowerSpinnerView
+            android:id="@+id/toSelection"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0"
+            android:background="@drawable/layout_corners_shape"
+            android:backgroundTint="@android:color/holo_orange_dark"
+            android:gravity="center"
+            android:padding="3dp"
+            android:textColor="@color/white"
+            android:textSize="14.5sp"
+            app:spinner_arrow_gravity="end"
+            app:spinner_divider_color="@color/black"
+            app:spinner_divider_show="true"
+            app:spinner_divider_size="0.4dp"
+            app:spinner_popup_animation="dropdown"
+            app:spinner_popup_elevation="14dp" />
+
+        <EditText
+            android:id="@+id/editTextTo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="140dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0"
+            android:backgroundTint="#FF9800"
+            android:ems="10"
+            android:gravity="right"
+            android:inputType="numberDecimal"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/convertButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="0"
+        android:backgroundTint="@android:color/holo_orange_dark"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:text="Convert"
+        android:textColor="#FFFFFF" />
+
+</LinearLayout>
