@@ -20,10 +20,10 @@ class RetrieveCurrencyConversionTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String[] params) {
         OkHttpClient client = new OkHttpClient();
 
+        String from = params[0];
+        String to = params[1];
         String amount  = params[2];
         Double responseResult = null;
-        String to = params[1];
-        String from = params[0];
 
         Request request = new Request.Builder()
                 .url("https://api.apilayer.com/fixer/convert?to=" + to + "&from=" + from + "&amount=" + amount)

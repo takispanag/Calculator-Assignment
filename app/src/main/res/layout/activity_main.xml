@@ -15,35 +15,19 @@
         android:layout_marginLeft="0.8dp"
         android:layout_marginTop="0.15dp"
         android:layout_marginRight="0.15dp"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:background="@android:color/black"
         android:orientation="vertical">
 
-        <com.skydoves.powerspinner.PowerSpinnerView
-            android:id="@+id/currencySelection"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+        <Button
+            android:id="@+id/button_intent"
+            android:layout_width="85dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/layout_corners_shape"
-            android:backgroundTint="@android:color/holo_orange_dark"
-            android:gravity="center"
-            android:padding="3dp"
-            android:textColor="@color/white"
-            android:textSize="14.5sp"
-            app:spinner_arrow_gravity="end"
-            app:spinner_divider_color="@color/black"
-            app:spinner_divider_show="true"
-            app:spinner_divider_size="0.4dp"
-            app:spinner_popup_animation="dropdown"
-            app:spinner_popup_elevation="14dp" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button" />
+            android:background="@drawable/button_round_edges"
+            android:text="Convert"
+            android:textColor="#FFFFFF" />
 
         <TextView
             android:id="@+id/textView_input_numbers"

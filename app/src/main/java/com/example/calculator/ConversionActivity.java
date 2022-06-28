@@ -36,31 +36,24 @@ public class ConversionActivity extends AppCompatActivity {
         initializeViewVariables();
         createCurrencyConversionSpinners();
 
-        Intent intent = getIntent();
-        String amount = intent.getStringExtra("amount");
+//        Intent intent = getIntent();
+//        String amount = intent.getStringExtra("amount");
 
         //set amount from main activity intent
         //amountFrom.setText(amount);
 
 
-        swapButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                swapCurrency();
-            }
-        });
+        swapButton.setOnClickListener(view -> swapCurrency());
 
-        convertButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String fromCurrency = spinnerFrom.getText().toString();
-                String toCurrency = spinnerTo.getText().toString();
-                String amount = amountFrom.getText().toString();
+        convertButton.setOnClickListener(view -> {
+            String fromCurrency = spinnerFrom.getText().toString();
+            String toCurrency = spinnerTo.getText().toString();
+            String amount1 = amountFrom.getText().toString();
 
-                getCurrencyConversion(fromCurrency, toCurrency, amount);
-            }
+            getCurrencyConversion(fromCurrency, toCurrency, amount1);
         });
     }
+
 
     private void swapCurrency() {
         //get item from list using selection
@@ -90,6 +83,7 @@ public class ConversionActivity extends AppCompatActivity {
         amountTo.setText(temp);
     }
 
+
     private void createCurrencyConversionSpinners() {
         iconSpinnerItems = new ArrayList<>();
         iconSpinnerItems.add(new IconSpinnerItem("EUR",getDrawable(R.drawable.europe_flag)));
@@ -117,15 +111,15 @@ public class ConversionActivity extends AppCompatActivity {
     }
 
     private void initializeViewVariables() {
-        convertButton = findViewById(R.id.convertButton);
-        swapButton = findViewById(R.id.swapButton);
-        amountFrom = findViewById(R.id.editTextFrom);
-        amountTo = findViewById(R.id.editTextTo);
+        convertButton = (Button) findViewById(R.id.convertButton);
+        swapButton = (ImageButton) findViewById(R.id.swapButton);
+        amountFrom = (EditText) findViewById(R.id.editTextFrom);
+        amountTo = (EditText) findViewById(R.id.editTextTo);
         spinnerFrom = findViewById(R.id.fromSelection);
         spinnerTo = findViewById(R.id.toSelection);
     }
 
-    //converts from old selection to new selection the amount and sets the textview
+    //converts from fromCurrency to toCurrency the amount and sets the textview
     private void getCurrencyConversion(String fromCurrency, String toCurrency, String amount) {
         try {
             //amount has an operand so we dont convert
@@ -144,7 +138,7 @@ public class ConversionActivity extends AppCompatActivity {
                 return;
             }
 
-            Toast.makeText(getApplicationContext(), "Converting..", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "Converting..", Toast.LENGTH_SHORT).show();
 
             String convertedCurrency = new RetrieveCurrencyConversionTask()
                     .execute(fromCurrency, toCurrency, amount)

@@ -132,6 +132,7 @@
             android:layout_weight="0"
             android:backgroundTint="#FF9800"
             android:ems="10"
+            android:enabled="false"
             android:gravity="right"
             android:inputType="numberDecimal"
             android:textColor="#FFFFFF" />
@@ -145,10 +146,11 @@
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
         android:layout_weight="0"
+        android:background="@drawable/button_round_edges"
         android:backgroundTint="@android:color/holo_orange_dark"
         android:foregroundGravity="center"
         android:gravity="center"
         android:text="Convert"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"/>
 
 </LinearLayout>

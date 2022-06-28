@@ -39,8 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     List<IconSpinnerItem> iconSpinnerItems = new ArrayList<>();
 
+    //format to remove trailing zeros
     DecimalFormat decimalFormat = new DecimalFormat("0.#####");
-
 
     Button buttonNumber0;
     Button buttonNumber1;
@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button buttonEqual;
     Button buttonDot;
 
+    Button buttonIntent;
     TextView inputNumbers;
 
 
@@ -72,50 +73,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button buttonIntent = (Button) findViewById(R.id.button);
-        buttonIntent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ConversionActivity.class);
-                intent.putExtra("amount", inputNumbers.getText().toString().replaceAll("[-\\+x÷%]","")); //Optional parameters
-                MainActivity.this.startActivity(intent);
-            }
-        });
-
-        createCurrencyConversionSpinner();
-
         initializeViewVariables();
 
         setOnClickListeners();
-    }
-
-    private void createCurrencyConversionSpinner() {
-        iconSpinnerItems.add(new IconSpinnerItem("EUR",getDrawable(R.drawable.europe_flag)));
-        iconSpinnerItems.add(new IconSpinnerItem("GBP",getDrawable(R.drawable.english_flag)));
-        iconSpinnerItems.add(new IconSpinnerItem("USD",getDrawable(R.drawable.usa_flag)));
-        iconSpinnerItems.add(new IconSpinnerItem("JPY",getDrawable(R.drawable.japan_flag)));
-        iconSpinnerItems.add(new IconSpinnerItem("AUD",getDrawable(R.drawable.australian_flag)));
-        iconSpinnerItems.add(new IconSpinnerItem("CAD",getDrawable(R.drawable.canadian_flag)));
-        iconSpinnerItems.add(new IconSpinnerItem("CHF",getDrawable(R.drawable.swiss_flag)));
-        iconSpinnerItems.add(new IconSpinnerItem("CNY",getDrawable(R.drawable.china_flag)));
-        iconSpinnerItems.add(new IconSpinnerItem("HKD",getDrawable(R.drawable.hong_kong_flag)));
-        iconSpinnerItems.add(new IconSpinnerItem("INR",getDrawable(R.drawable.indian_flag)));
-
-        PowerSpinnerView spinnerView = findViewById(R.id.currencySelection);
-        IconSpinnerAdapter iconSpinnerAdapter = new IconSpinnerAdapter(spinnerView);
-        spinnerView.setSpinnerAdapter(iconSpinnerAdapter);
-        spinnerView.setItems(iconSpinnerItems);
-        spinnerView.selectItemByIndex(0);
-
-        spinnerView.setOnSpinnerItemSelectedListener((OnSpinnerItemSelectedListener<IconSpinnerItem>) (oldIndex, oldIconSpinnerItem, newIndex, newIconSpinnerItem) -> {
-
-            //total screen is empty
-            if (inputNumbers.getText().length() != 0) {
-                getCurrencyConversion(oldIconSpinnerItem.getText().toString(),
-                        newIconSpinnerItem.getText().toString(),
-                        inputNumbers.getText().toString());
-            }
-        });
     }
 
     private void setOnClickListeners()
@@ -140,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonAddition.setOnClickListener(this);
         buttonEqual.setOnClickListener(this);
         buttonDot.setOnClickListener(this);
+        buttonIntent.setOnClickListener(this);
     }
 
     private void initializeViewVariables()
@@ -164,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonAddition = (Button) findViewById(R.id.button_addition);
         buttonEqual = (Button) findViewById(R.id.button_equal);
         buttonDot = (Button) findViewById(R.id.button_dot);
+        buttonIntent = (Button) findViewById(R.id.button_intent);
         inputNumbers = (TextView) findViewById(R.id.textView_input_numbers);
     }
 
@@ -219,6 +181,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.button_dot:
                 addDot();
+                break;
+            case R.id.button_intent:
+                //intent to conversion activity
+                Intent intent = new Intent(MainActivity.this, ConversionActivity.class);
+                intent.putExtra("amount", inputNumbers.getText().toString().replaceAll("[-\\+x÷%]",""));
+                MainActivity.this.startActivity(intent);
                 break;
             case R.id.button_clear:
                 inputNumbers.setText("");
