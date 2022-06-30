@@ -36,12 +36,6 @@ public class ConversionActivity extends AppCompatActivity {
         initializeViewVariables();
         createCurrencyConversionSpinners();
 
-//        Intent intent = getIntent();
-//        String amount = intent.getStringExtra("amount");
-
-        //set amount from main activity intent
-        //amountFrom.setText(amount);
-
 
         swapButton.setOnClickListener(view -> swapCurrency());
 

@@ -9,14 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.skydoves.powerspinner.IconSpinnerAdapter;
-import com.skydoves.powerspinner.IconSpinnerItem;
-import com.skydoves.powerspinner.OnSpinnerItemSelectedListener;
-import com.skydoves.powerspinner.PowerSpinnerView;
-
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,6 +17,7 @@ import java.util.regex.Pattern;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
     private int numberOfOperands = 0;
+    private int numberOfDots = 0;
 
     private final char ADDITION = '+';
     private final char SUBTRACTION = '-';
@@ -37,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final static int IS_OPERAND = 1;
     private final static int IS_DOT = 2;
 
-    List<IconSpinnerItem> iconSpinnerItems = new ArrayList<>();
 
     //format to remove trailing zeros
     DecimalFormat decimalFormat = new DecimalFormat("0.#####");
@@ -125,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonAddition = (Button) findViewById(R.id.button_addition);
         buttonEqual = (Button) findViewById(R.id.button_equal);
         buttonDot = (Button) findViewById(R.id.button_dot);
-        buttonIntent = (Button) findViewById(R.id.button_intent);
+        buttonIntent = (Button) findViewById(R.id.button_conversion_intent);
         inputNumbers = (TextView) findViewById(R.id.textView_input_numbers);
     }
 
@@ -182,19 +175,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button_dot:
                 addDot();
                 break;
-            case R.id.button_intent:
+            case R.id.button_conversion_intent:
                 //intent to conversion activity
                 Intent intent = new Intent(MainActivity.this, ConversionActivity.class);
-                intent.putExtra("amount", inputNumbers.getText().toString().replaceAll("[-\\+x÷%]",""));
+//                intent.putExtra("amount", inputNumbers.getText().toString().replaceAll("[-\\+x÷%]",""));
                 MainActivity.this.startActivity(intent);
                 break;
             case R.id.button_clear:
                 inputNumbers.setText("");
                 numberOfOperands = 0;
+                numberOfDots = 0;
                 break;
             case R.id.button_clear_once:
                 //delete one char
                 if(inputNumbers.getText().length()>0){
+                    //if char to be deleted is dot, reset dot counter
+                    if(getLastCharacerType(inputNumbers.getText().charAt(inputNumbers.getText().length() - 1) + "") == IS_DOT){
+                        numberOfDots = 0;
+                    }
                     inputNumbers.setText(inputNumbers
                             .getText()
                             .toString()
@@ -226,18 +224,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         boolean completed = false;
 
-        if (inputNumbers.getText().length() == 0)
-        {
-            inputNumbers.setText("0.");
-            completed = true;
-        } else if (defineLastCharacter(inputNumbers.getText().charAt(inputNumbers.getText().length() - 1) + "") == IS_OPERAND)
-        {
-            inputNumbers.setText(inputNumbers.getText() + "0.");
-            completed = true;
-        } else if (defineLastCharacter(inputNumbers.getText().charAt(inputNumbers.getText().length() - 1) + "") == IS_NUMBER)
-        {
-            inputNumbers.setText(inputNumbers.getText() + ".");
-            completed = true;
+        if(numberOfDots <1){
+            if (inputNumbers.getText().length() == 0)
+            {
+                inputNumbers.setText("0.");
+                completed = true;
+                numberOfDots++;
+            } else if (getLastCharacerType(inputNumbers.getText().charAt(inputNumbers.getText().length() - 1) + "") == IS_OPERAND)
+            {
+                inputNumbers.setText(inputNumbers.getText() + "0.");
+                completed = true;
+                numberOfDots++;
+            } else if (getLastCharacerType(inputNumbers.getText().charAt(inputNumbers.getText().length() - 1) + "") == IS_NUMBER)
+            {
+                inputNumbers.setText(inputNumbers.getText() + ".");
+                completed = true;
+                numberOfDots++;
+            }
         }
         return completed;
     }
@@ -255,6 +258,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 OPERATION = matcher.group(2).charAt(0);
                 Double secondNumber =  Double.parseDouble(matcher.group(3));
                 operation(firstNumber, secondNumber);
+                //set dots to 0 after operand
+                numberOfDots = 0;
             }
             numberOfOperands=0;
         }
@@ -272,16 +277,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     || lastInput.equals("%")))
             {
                 Toast.makeText(getApplicationContext(), "Operand already exists", Toast.LENGTH_LONG).show();
-            } else if (operand.equals("%") && defineLastCharacter(lastInput) == IS_NUMBER)
+            }else if (lastInput.equals("."))
+            {
+                Toast.makeText(getApplicationContext(), "You can't add operand when last character is dot (.)", Toast.LENGTH_LONG).show();
+            }
+            else if (operand.equals("%") && getLastCharacerType(lastInput) == IS_NUMBER)
             {
                 inputNumbers.setText(inputNumbers.getText() + operand);
                 numberOfOperands++;
                 completed = true;
+                numberOfDots = 0;
             } else if (!operand.equals("%"))
             {
                 inputNumbers.setText(inputNumbers.getText() + operand);
                 numberOfOperands++;
                 completed = true;
+                numberOfDots = 0;
             }
         } else
         {
@@ -298,7 +309,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (operationLength > 0)
         {
             String lastCharacter = inputNumbers.getText().charAt(operationLength - 1) + "";
-            int lastCharacterState = defineLastCharacter(lastCharacter);
+            int lastCharacterState = getLastCharacerType(lastCharacter);
 
             if (operationLength == 1 && lastCharacterState == IS_NUMBER && lastCharacter.equals("0"))
             {
@@ -322,56 +333,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-    //converts from old selection to new selection the amount and sets the textview
-    private void getCurrencyConversion(String oldSpinnerText, String newSpinnerText, String amount) {
-        try {
-            //amount has an operand so we dont convert
-            if(amount.matches(".*[-\\+x÷%].*")){
-                Toast.makeText(getApplicationContext(), "Operand found. Conversion can only happen on a number!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(Double.parseDouble(amount)<=0){
-                Toast.makeText(getApplicationContext(), "Please enter amount greater than 0", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            Toast.makeText(getApplicationContext(), "Converting..", Toast.LENGTH_SHORT).show();
-
-            String convertedCurrency = new RetrieveCurrencyConversionTask()
-                    .execute(oldSpinnerText, newSpinnerText, amount)
-                    .get();
-
-            //if empty response means conversion failed
-            if(convertedCurrency.equals("null") || convertedCurrency.isEmpty()){
-                Toast.makeText(getApplicationContext(), "Conversion failed!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            Toast.makeText(getApplicationContext(), "Conversion completed!", Toast.LENGTH_SHORT).show();
-            inputNumbers.setText(convertedCurrency);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Conversion failed!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
    private void operation(Double firstNumber, Double secondNumber) {
         switch (OPERATION) {
             //decimal format to remove trailing zeros
                 case ADDITION:
+                    //if number %1 != 0 means number is decimal. So dots=1 to not be able to add more
+                    if((firstNumber + secondNumber) % 1 != 0 ){
+                        numberOfDots = 1;
+                    }
                     inputNumbers.setText(decimalFormat.format(firstNumber + secondNumber));
                     break;
                 case SUBTRACTION:
+                    if((firstNumber - secondNumber) % 1 != 0 ){
+                        numberOfDots = 1;
+                    }
                     inputNumbers.setText(decimalFormat.format(firstNumber - secondNumber));
                     break;
                 case MULTIPLICATION:
+                    if((firstNumber * secondNumber) % 1 != 0 ){
+                        numberOfDots = 1;
+                    }
                     inputNumbers.setText(decimalFormat.format(firstNumber * secondNumber));
                     break;
                 case DIVISION:
+                    if((firstNumber / secondNumber) % 1 != 0 ){
+                        numberOfDots = 1;
+                    }
                     inputNumbers.setText(decimalFormat.format(firstNumber / secondNumber));
                     break;
                 case MODULUS:
+                    if((firstNumber % secondNumber) % 1 != 0 ){
+                        numberOfDots = 1;
+                    }
                     inputNumbers.setText(decimalFormat.format(firstNumber % secondNumber));
                     break;
                 case EQUALS:
@@ -379,7 +372,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private int defineLastCharacter(String lastCharacter)
+    private int getLastCharacerType(String lastCharacter)
     {
         try
         {
