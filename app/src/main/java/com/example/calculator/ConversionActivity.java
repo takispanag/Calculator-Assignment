@@ -28,6 +28,11 @@ public class ConversionActivity extends AppCompatActivity {
     List<IconSpinnerItem> iconSpinnerItems;
     PowerSpinnerView spinnerFrom, spinnerTo;
 
+    /**
+     * Creates the activity, initializes view variables and creates the Currency Conversion spinners
+     * Sets the onclick listeners for swapButton and convertButton
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +53,9 @@ public class ConversionActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Swaps the selection of the currency and the amount
+     */
     private void swapCurrency() {
         //get item from list using selection
         IconSpinnerItem fromSpinnerSelection = iconSpinnerItems
@@ -77,8 +84,11 @@ public class ConversionActivity extends AppCompatActivity {
         amountTo.setText(temp);
     }
 
-
+    /**
+     * Creates the 2 spinners for the currency selection
+     */
     private void createCurrencyConversionSpinners() {
+        // create the list of currencies
         iconSpinnerItems = new ArrayList<>();
         iconSpinnerItems.add(new IconSpinnerItem("EUR",getDrawable(R.drawable.europe_flag)));
         iconSpinnerItems.add(new IconSpinnerItem("GBP",getDrawable(R.drawable.english_flag)));
@@ -104,6 +114,9 @@ public class ConversionActivity extends AppCompatActivity {
         spinnerTo.selectItemByIndex(1);
     }
 
+    /**
+     * Initializes the view variables of the activity
+     */
     private void initializeViewVariables() {
         convertButton = (Button) findViewById(R.id.convertButton);
         swapButton = (ImageButton) findViewById(R.id.swapButton);
@@ -113,6 +126,18 @@ public class ConversionActivity extends AppCompatActivity {
         spinnerTo = findViewById(R.id.toSelection);
     }
 
+    /**
+     * Corverts the currency using fromCurrency, toCurrency, amount and calls
+     * RetrieveCurrencyConversionTask to receive the converted amount.
+     * Then sets the converted amount to amountTo textField
+     * if amount is empty a toast is shown and the method ends
+     * if amount is less than 0 a toast is shown and the method ends
+     * if RetrieveCurrencyConversionTask returns null or is empty a toast is shown and the method ends
+     * if any exception happens Conversion failed! is shown as a toast
+     * @param fromCurrency
+     * @param toCurrency
+     * @param amount
+     */
     //converts from fromCurrency to toCurrency the amount and sets the textview
     private void getCurrencyConversion(String fromCurrency, String toCurrency, String amount) {
         try {

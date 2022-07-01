@@ -60,6 +60,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView inputNumbers;
 
 
+    /**
+     * Creates activity, calls initializes view variables and sets onclick listeners
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -71,6 +75,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setOnClickListeners();
     }
 
+    /**
+     * Sets on click listeners
+     */
     private void setOnClickListeners()
     {
         buttonNumber0.setOnClickListener(this);
@@ -96,6 +103,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonIntent.setOnClickListener(this);
     }
 
+    /**
+     * Initializes view variables
+     */
     private void initializeViewVariables()
     {
         buttonNumber0 = (Button) findViewById(R.id.button_zero);
@@ -122,6 +132,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         inputNumbers = (TextView) findViewById(R.id.textView_input_numbers);
     }
 
+    /**
+     * Overrides onclick to perform an action according to the button it was clicked
+     * @param view
+     */
     @Override
     public void onClick(View view)
     {
@@ -204,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button_equal:
                 if (inputNumbers.getText().toString() != null && !inputNumbers.getText().toString().equals(""))
                 {
+                    //get first number, operand and second number through regex
                     Pattern pattern = Pattern.compile("(-?\\d+(?:\\.\\d+)?)([-+x÷%\\/])(-?\\d+(?:\\.\\d+)?)");
                     Matcher matcher = pattern.matcher(inputNumbers.getText().toString());
                     while (matcher.find()) {
@@ -220,6 +235,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    /**
+     * Returns true if a dot was added to inputNumbers
+     * @return completed
+     */
     private boolean addDot()
     {
         boolean completed = false;
@@ -245,6 +264,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return completed;
     }
 
+    /**
+     * Returns true if an operand was added to inputNumbers
+     * @param operand
+     * @return completed
+     */
     private boolean addOperand(String operand)
     {
         boolean completed = false;
@@ -302,6 +326,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return completed;
     }
 
+    /**
+     * Returns true if a number was added to inputNumbers
+     * @param number
+     * @return completed
+     */
     private boolean addNumber(String number)
     {
         boolean completed = false;
@@ -333,6 +362,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    /**
+     * Performs the operation according to OPERATION
+     * @param firstNumber
+     * @param secondNumber
+     */
    private void operation(Double firstNumber, Double secondNumber) {
         switch (OPERATION) {
             //decimal format to remove trailing zeros
@@ -372,6 +406,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * Returns last character type as an int (global variable)
+     * @param lastCharacter
+     * @return characterType
+     */
     private int getLastCharacerType(String lastCharacter)
     {
         try

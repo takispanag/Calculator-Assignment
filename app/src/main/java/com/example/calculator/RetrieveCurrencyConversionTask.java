@@ -16,7 +16,11 @@ import okhttp3.Response;
 
 class RetrieveCurrencyConversionTask extends AsyncTask<String, Void, String> {
 
-    //params = [oldSpinnerText, newSpinnerText, amount]
+    /**
+     * Does the api request for currency conversion and returns the response
+     * @param params = [from, to, amount]
+     * @return responseResult
+     */
     protected String doInBackground(String[] params) {
         OkHttpClient client = new OkHttpClient();
 
