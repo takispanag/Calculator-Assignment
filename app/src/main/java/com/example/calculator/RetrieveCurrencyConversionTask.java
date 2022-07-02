@@ -16,6 +16,7 @@ import okhttp3.Response;
 
 class RetrieveCurrencyConversionTask extends AsyncTask<String, Void, String> {
 
+    private final static String API_KEY = "Y1uEv5CUiV9EzUSo3J9oCADDd1J7iZ4V";
     /**
      * Does the api request for currency conversion and returns the response
      * @param params = [from, to, amount]
@@ -23,7 +24,6 @@ class RetrieveCurrencyConversionTask extends AsyncTask<String, Void, String> {
      */
     protected String doInBackground(String[] params) {
         OkHttpClient client = new OkHttpClient();
-
         String from = params[0];
         String to = params[1];
         String amount  = params[2];
@@ -31,7 +31,7 @@ class RetrieveCurrencyConversionTask extends AsyncTask<String, Void, String> {
 
         Request request = new Request.Builder()
                 .url("https://api.apilayer.com/fixer/convert?to=" + to + "&from=" + from + "&amount=" + amount)
-                .addHeader("apikey", "Y1uEv5CUiV9EzUSo3J9oCADDd1J7iZ4V")
+                .addHeader("apikey", API_KEY)
                 .method("GET", null)
                 .build();
         try {
